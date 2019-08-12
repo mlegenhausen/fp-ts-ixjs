@@ -1,0 +1,59 @@
+{
+  "name": "fp-ts-ixjs",
+  "version": "0.0.1",
+  "description": "fp-ts bindings for IxJS",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "lint": "eslint --ext .ts,.tsx src",
+    "lint:fix": "eslint --ext .ts,.tsx --fix src",
+    "jest": "jest --ci",
+    "test": "npm run lint && npm run jest && npm run docs",
+    "clean": "rm -rf lib/*",
+    "build": "npm run clean && tsc",
+    "prepublish": "npm run build",
+    "docs": "docs-ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/werk85/fp-ts-ixjs.git"
+  },
+  "author": "Malte Legenhausen <malte@werk85.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/werk85/fp-ts-ixjs/issues"
+  },
+  "homepage": "https://github.com/werk85/fp-ts-ixjs",
+  "peerDependencies": {
+    "fp-ts": "^2.0.1",
+    "ix": "^2.5.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "2.2.38",
+    "@types/node": "^12.7.1",
+    "docs-ts": "^0.1.0",
+    "eslint": "^6.1.0",
+    "eslint-config-werk85": "https://github.com/werk85/eslint-config-werk85.git",
+    "fp-ts": "^2.0.1",
+    "ix": "^2.5.3",
+    "jest": "^24.8.0",
+    "mocha": "^5.2.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
+    "ts-node": "3.2.0",
+    "typescript": "^3.5.3"
+  },
+  "tags": [
+    "fp-ts",
+    "ixjs",
+    "ix"
+  ],
+  "keywords": [
+    "fp-ts",
+    "ixjs",
+    "ix"
+  ]
+}
