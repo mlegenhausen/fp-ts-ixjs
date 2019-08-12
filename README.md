@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/werk85/fp-ts-ixjs.svg?style=svg)](https://circleci.com/gh/werk85/fp-ts-ixjs)
+
 [fp-ts](https://github.com/gcanti/fp-ts) bindings for [IxJS](https://github.com/ReactiveX/IxJS)
 
 # Implemented instances
