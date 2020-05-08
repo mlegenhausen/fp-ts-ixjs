@@ -11,11 +11,11 @@
 # Example
 
 ```ts
-import { AsyncIterableX } from 'ix/asynciterable'
+import { from } from 'ix/asynciterable'
 import { asyncIterable } from 'fp-ts-ixjs/lib/AsyncIterableX'
 
-const fa = AsyncIterableX.from([1, 2, 3])
-const fb = asyncIterable.chain(fa, a => AsyncIterableX.from([a, a + 1]))
+const fa = from([1, 2, 3])
+const fb = asyncIterable.chain(fa, a => from([a, a + 1]))
 // fb will emit 1, 2, 2, 3, 3, 4
 ```
 

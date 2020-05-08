@@ -7,6 +7,7 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest'
   },
   testRegex: 'test',
+  testPathIgnorePatterns: ['\.eslintrc.js'],
   moduleFileExtensions: ['ts', 'js'],
   coverageThreshold: {
     global: {

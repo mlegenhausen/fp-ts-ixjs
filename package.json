@@ -1,6 +1,6 @@
 {
   "name": "fp-ts-ixjs",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "fp-ts bindings for IxJS",
   "files": [
     "lib"
@@ -8,13 +8,15 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "lint": "eslint --ext .ts,.tsx src",
-    "lint:fix": "eslint --ext .ts,.tsx --fix src",
+    "lint:es": "eslint --ext .ts,.tsx .",
+    "lint:tsc": "tsc --project ./tsconfig.json --noEmit && tsc --project ./test/tsconfig.json --noEmit",
+    "lint:fix": "eslint --ext .ts,.tsx --fix .",
+    "lint": "yarn lint:es && yarn lint:tsc",
     "jest": "jest --ci",
-    "test": "npm run lint && npm run jest && npm run docs",
+    "test": "yarn lint && yarn jest && yarn docs",
     "clean": "rm -rf lib/*",
-    "build": "npm run clean && tsc",
-    "prepublish": "npm run build",
+    "build": "yarn clean && tsc",
+    "prepublish": "yarn build",
     "docs": "docs-ts"
   },
   "repository": {
@@ -29,22 +31,21 @@
   "homepage": "https://github.com/werk85/fp-ts-ixjs",
   "peerDependencies": {
     "fp-ts": "^2.0.1",
-    "ix": "^2.5.0"
+    "ix": "^3.0.0"
   },
   "devDependencies": {
-    "@types/mocha": "2.2.38",
-    "@types/node": "^12.7.1",
-    "docs-ts": "^0.1.0",
-    "eslint": "^6.1.0",
+    "@types/mocha": "7.0.2",
+    "@types/node": "^13.13.5",
+    "docs-ts": "^0.4.0",
+    "eslint": "^6.8.0",
     "eslint-config-werk85": "https://github.com/werk85/eslint-config-werk85.git",
-    "fp-ts": "^2.0.1",
-    "ix": "^2.5.3",
-    "jest": "^24.8.0",
-    "mocha": "^5.2.0",
-    "prettier": "^1.18.2",
-    "ts-jest": "^24.0.2",
-    "ts-node": "3.2.0",
-    "typescript": "^3.5.3"
+    "fp-ts": "^2.5.4",
+    "ix": "^3.0.2",
+    "jest": "^26.0.1",
+    "mocha": "^7.1.2",
+    "ts-jest": "^25.5.0",
+    "ts-node": "8.10.1",
+    "typescript": "^3.8.3"
   },
   "tags": [
     "fp-ts",

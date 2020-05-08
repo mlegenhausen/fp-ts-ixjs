@@ -3,7 +3,7 @@ import { Readable } from 'stream'
 import * as O from 'fp-ts/lib/Option'
 import * as E from 'fp-ts/lib/Either'
 import { identity } from 'fp-ts/lib/function'
-import { AsyncIterableX, toArray } from 'ix/asynciterable'
+import { toArray, from } from 'ix/asynciterable'
 import { asyncIterable as R } from '../src'
 
 describe('AsyncIterableX', () => {
@@ -15,7 +15,7 @@ describe('AsyncIterableX', () => {
   })
 
   it('map', () => {
-    const fa = AsyncIterableX.from([1, 2, 3])
+    const fa = from([1, 2, 3])
     const double = (n: number): number => n * 2
     const fb = R.asyncIterable.map(fa, double)
     return toArray(fb).then(events => {
@@ -24,10 +24,10 @@ describe('AsyncIterableX', () => {
   })
 
   it('ap', () => {
-    const fa = AsyncIterableX.from([1, 2, 3])
+    const fa = from([1, 2, 3])
     const double = (n: number): number => n * 2
     const triple = (n: number): number => n * 3
-    const fab = AsyncIterableX.from([double, triple])
+    const fab = from([double, triple])
     const fb = R.asyncIterable.ap(fab, fa)
     return toArray(fb).then(events => {
       assert.deepStrictEqual(events, [2, 3, 6, 9])
@@ -35,23 +35,26 @@ describe('AsyncIterableX', () => {
   })
 
   it('chain', () => {
-    const fa = AsyncIterableX.from([1, 2, 3])
-    const fb = R.asyncIterable.chain(fa, a => AsyncIterableX.from([a, a + 1]))
+    const fa = from([1, 2, 3])
+    const fb = R.asyncIterable.chain(fa, a => from([a, a + 1]))
     return toArray(fb).then(events => {
       assert.deepStrictEqual(events, [1, 2, 2, 3, 3, 4])
     })
   })
 
   it('filterMap', () => {
-    const fa = AsyncIterableX.from([1, 2, 3])
-    const fb = R.asyncIterable.filterMap(fa, O.fromPredicate(n => n > 1))
+    const fa = from([1, 2, 3])
+    const fb = R.asyncIterable.filterMap(
+      fa,
+      O.fromPredicate(n => n > 1)
+    )
     return toArray(fb).then(events => {
       assert.deepStrictEqual(events, [2, 3])
     })
   })
 
   it('compact', () => {
-    const fa = AsyncIterableX.from([1, 2, 3].map(O.fromPredicate(n => n > 1)))
+    const fa = from([1, 2, 3].map(O.fromPredicate(n => n > 1)))
     const fb = R.asyncIterable.compact(fa)
     return toArray(fb).then(events => {
       assert.deepStrictEqual(events, [2, 3])
@@ -59,7 +62,7 @@ describe('AsyncIterableX', () => {
   })
 
   it('filter', () => {
-    const fa = AsyncIterableX.from([1, 2, 3])
+    const fa = from([1, 2, 3])
     const fb = R.asyncIterable.filter(fa, n => n > 1)
     return toArray(fb).then(events => {
       assert.deepStrictEqual(events, [2, 3])
@@ -67,8 +70,11 @@ describe('AsyncIterableX', () => {
   })
 
   it('partitionMap', () => {
-    const fa = AsyncIterableX.from([1, 2, 3])
-    const s = R.asyncIterable.partitionMap(fa, E.fromPredicate(n => n > 1, identity))
+    const fa = from([1, 2, 3])
+    const s = R.asyncIterable.partitionMap(
+      fa,
+      E.fromPredicate(n => n > 1, identity)
+    )
     return toArray(s.left)
       .then(events => {
         assert.deepStrictEqual(events, [1])
@@ -81,7 +87,7 @@ describe('AsyncIterableX', () => {
   })
 
   it('separate', () => {
-    const fa = AsyncIterableX.from([1, 2, 3].map(E.fromPredicate(n => n > 1, identity)))
+    const fa = from([1, 2, 3].map(E.fromPredicate(n => n > 1, identity)))
     const s = R.asyncIterable.separate(fa)
     return toArray(s.left)
       .then(events => {
@@ -95,7 +101,7 @@ describe('AsyncIterableX', () => {
   })
 
   it('partition', () => {
-    const fa = AsyncIterableX.from([1, 2, 3])
+    const fa = from([1, 2, 3])
     const s = R.asyncIterable.partition(fa, n => n > 1)
     return toArray(s.left)
       .then(events => {
@@ -130,7 +136,7 @@ describe('AsyncIterableX', () => {
       let eventCount = 0
       const mockedStream = new Readable({
         objectMode: true,
-        read: function(size) {
+        read: function() {
           if (eventCount < 3) {
             eventCount = eventCount + 1
             this.push({ message: `event${eventCount}` })
@@ -153,7 +159,7 @@ describe('AsyncIterableX', () => {
       const error = new Error('Fail')
       const mockedStream = new Readable({
         objectMode: true,
-        read: function(size) {
+        read: function() {
           if (eventCount < 1) {
             eventCount = eventCount + 1
             this.push({ message: `event${eventCount}` })
